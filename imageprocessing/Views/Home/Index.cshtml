@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<h2>Image Processing Dominant Rengin Bulunması</h2>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<script>
+    $('form').ajaxForm({
+        beforeSend:function(){
+            $('#loader').show();
+        },
+        success: function (url) {
+            $('#loader').hide();            
+            $('#container').append('<td>&nbsp; &nbsp;<div style="background-color:' + url.split('æ')[1] + ';width:200px;border:4px solid red;padding:2px"><font color="white">' + url.split('æ')[1] + '</div><img id="theImg" src="' + url.split('æ')[0] + '" style="width:200px;height:200px"/></td>')
+        }
+    });
+</script>
+<img src="~/Content/loader.gif" id="loader" style="display:none" />
+@using (Ajax.BeginForm("UploadImage", "Home", new AjaxOptions() { HttpMethod = "POST" }, new { encytype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()    
+    <input type="file" name="files" />
+    <input type="submit" value="Resim Yükle" />
+}
+<table><tr id="container"></tr></table>
+@*<div id="container"></div>*@
+
